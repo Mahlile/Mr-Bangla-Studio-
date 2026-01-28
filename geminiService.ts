@@ -1,7 +1,7 @@
 
 import { GoogleGenAI } from "@google/genai";
-import { ChatMessage } from "../types";
-import { CONTACT_NUMBER } from "../constants";
+import { ChatMessage } from "./types";
+import { CONTACT_NUMBER } from "./constants";
 
 export const getGeminiResponse = async (history: ChatMessage[], message: string) => {
   // Correctly initialize with named apiKey parameter using process.env.API_KEY

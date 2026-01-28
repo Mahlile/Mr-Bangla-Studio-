@@ -1,4 +1,3 @@
-
 export type ServiceType = 'TRIAL' | 'STANDARD' | 'VIRAL' | 'CINEMATIC' | 'EVENT' | 'ELITE';
 
 export interface PricingPlan {
@@ -20,15 +19,19 @@ export interface PortfolioItem {
 }
 
 export interface OrderDetails {
-  customerName: string; // Added field
+  customerName: string;
   serviceType: ServiceType;
-  duration: number; // in minutes
+  duration: number;
   instructions: string;
   trxId: string;
   paymentMethod: 'BKASH' | 'NAGAD';
   paymentType: 'FULL' | 'ADVANCE'; 
 }
 
+/**
+ * Added to fix the missing export error in geminiService.ts.
+ * Follows the standard role naming convention for the Google GenAI SDK.
+ */
 export interface ChatMessage {
   role: 'user' | 'model';
   text: string;
