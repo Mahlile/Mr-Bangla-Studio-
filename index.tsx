@@ -60,7 +60,7 @@ const App: React.FC = () => {
     
     const plan = PRICING_PLANS.find(p => p.id === selectedPlan);
     const totalAmount = plan?.price || 0;
-    const paidAmount = orderDetails.paymentType === 'ADVANCE' ? totalAmount * 0.5 : totalAmount;
+    const paidAmount = orderDetails.paymentType === 'ADVANCE' ? Math.ceil(totalAmount * 0.5) : totalAmount;
     const payTypeStr = orderDetails.paymentType === 'ADVANCE' ? `৫০% অগ্রিম (৳${paidAmount})` : `ফুল পেমেন্ট (৳${paidAmount})`;
     
     const waMessage = `✨ *New Order: Mr Bangla Studio* ✨
@@ -80,7 +80,7 @@ const App: React.FC = () => {
   };
 
   const planPrice = PRICING_PLANS.find(p => p.id === selectedPlan)?.price || 0;
-  const payableAmount = orderDetails.paymentType === 'ADVANCE' ? planPrice * 0.5 : planPrice;
+  const payableAmount = orderDetails.paymentType === 'ADVANCE' ? Math.ceil(planPrice * 0.5) : planPrice;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#020617] text-slate-100 pb-24 md:pb-0 font-['Inter']">
@@ -130,7 +130,6 @@ const App: React.FC = () => {
           <div className="space-y-12 animate-fade-in">
             {/* Hero Section */}
             <section className="text-center py-6 flex flex-col items-center">
-              {/* Profile Image Highlight */}
               <div 
                 className="relative mb-8 group cursor-pointer"
                 onClick={() => window.open(YT_CHANNEL_URL, '_blank')}
@@ -194,7 +193,7 @@ const App: React.FC = () => {
             </section>
 
             {/* Portfolio Section */}
-            <section className="space-y-6 pb-6">
+            <section className="space-y-6">
               <h3 className="text-xl font-black italic px-2 flex items-center gap-2">
                  <span className="h-1 w-8 bg-red-600 rounded-full"></span>
                  কাজের নমুনা
@@ -210,6 +209,32 @@ const App: React.FC = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+            </section>
+
+            {/* Social Media Section */}
+            <section className="space-y-6 pb-10">
+              <h3 className="text-xl font-black italic px-2 flex items-center gap-2">
+                 <span className="h-1 w-8 bg-indigo-400 rounded-full"></span>
+                 আমাদের সাথে যুক্ত হোন
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noreferrer" className="glass-panel p-5 rounded-3xl border-white/5 flex flex-col items-center gap-3 transition-all active:scale-95 group">
+                   <div className="h-12 w-12 bg-[#1877F2]/20 rounded-2xl flex items-center justify-center text-[#1877F2] text-2xl group-hover:bg-[#1877F2] group-hover:text-white transition-all shadow-lg">f</div>
+                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Facebook</span>
+                </a>
+                <a href={SOCIAL_LINKS.youtube} target="_blank" rel="noreferrer" className="glass-panel p-5 rounded-3xl border-white/5 flex flex-col items-center gap-3 transition-all active:scale-95 group">
+                   <div className="h-12 w-12 bg-[#FF0000]/20 rounded-2xl flex items-center justify-center text-[#FF0000] text-2xl group-hover:bg-[#FF0000] group-hover:text-white transition-all shadow-lg">y</div>
+                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">YouTube</span>
+                </a>
+                <a href={SOCIAL_LINKS.tiktok} target="_blank" rel="noreferrer" className="glass-panel p-5 rounded-3xl border-white/5 flex flex-col items-center gap-3 transition-all active:scale-95 group">
+                   <div className="h-12 w-12 bg-[#000000]/40 rounded-2xl flex items-center justify-center text-white text-xl group-hover:bg-white group-hover:text-black transition-all shadow-lg">t</div>
+                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">TikTok</span>
+                </a>
+                <a href={SOCIAL_LINKS.telegram} target="_blank" rel="noreferrer" className="glass-panel p-5 rounded-3xl border-white/5 flex flex-col items-center gap-3 transition-all active:scale-95 group">
+                   <div className="h-12 w-12 bg-[#229ED9]/20 rounded-2xl flex items-center justify-center text-[#229ED9] text-2xl group-hover:bg-[#229ED9] group-hover:text-white transition-all shadow-lg">T</div>
+                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Telegram</span>
+                </a>
               </div>
             </section>
           </div>
@@ -272,6 +297,20 @@ const App: React.FC = () => {
                   </div>
 
                   <div>
+                    <label className="text-[9px] font-black text-slate-500 uppercase px-3 mb-2 block tracking-widest">পেমেন্ট টাইপ</label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button type="button" onClick={() => setOrderDetails({...orderDetails, paymentType: 'ADVANCE'})} className={`py-4 rounded-xl border flex flex-col items-center justify-center transition-all ${orderDetails.paymentType === 'ADVANCE' ? 'bg-indigo-600 border-indigo-500 shadow-lg' : 'bg-slate-900 border-white/5 opacity-50'}`}>
+                        <span className="font-black text-[12px]">৫০% অগ্রিম</span>
+                        <span className="text-[8px] opacity-70">বাকি কাজ শেষে</span>
+                      </button>
+                      <button type="button" onClick={() => setOrderDetails({...orderDetails, paymentType: 'FULL'})} className={`py-4 rounded-xl border flex flex-col items-center justify-center transition-all ${orderDetails.paymentType === 'FULL' ? 'bg-indigo-600 border-indigo-500 shadow-lg' : 'bg-slate-900 border-white/5 opacity-50'}`}>
+                        <span className="font-black text-[12px]">ফুল পেমেন্ট</span>
+                        <span className="text-[8px] opacity-70">একবারে পরিশোধ</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
                     <label className="text-[9px] font-black text-slate-500 uppercase px-3 mb-2 block tracking-widest">Transaction ID / TrxID (আবশ্যক)</label>
                     <input type="text" required placeholder="টাকা পাঠিয়ে TrxID এখানে দিন" value={orderDetails.trxId} onChange={(e) => setOrderDetails({ ...orderDetails, trxId: e.target.value })} className="w-full bg-slate-900 border border-white/10 rounded-2xl px-5 py-4 outline-none font-mono text-sm text-indigo-400 focus:ring-1 focus:ring-indigo-500" />
                   </div>
@@ -289,7 +328,7 @@ const App: React.FC = () => {
                   </div>
                   <div className="h-px bg-white/5"></div>
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-500 text-xs font-bold uppercase tracking-tighter">প্রদেয় পরিমাণ:</span>
+                    <span className="text-slate-500 text-xs font-bold uppercase tracking-tighter">প্রদেয় পরিমাণ ({orderDetails.paymentType === 'ADVANCE' ? '৫০%' : 'Full'}):</span>
                     <span className="text-2xl font-black text-white">৳{payableAmount}</span>
                   </div>
                 </div>
