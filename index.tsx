@@ -45,10 +45,18 @@ const App: React.FC = () => {
   const handleOrderSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Strict Validation
-    if (!orderDetails.customerName?.trim()) return alert("অনুগ্রহ করে আপনার নামটি লিখুন!");
-    if (!selectedPlan) return alert("অনুগ্রহ করে একটি প্যাকেজ সিলেক্ট করুন!");
-    if (!orderDetails.trxId?.trim()) return alert("অনুগ্রহ করে পেমেন্ট করার পর Transaction ID (TrxID) দিন। TrxID ছাড়া অর্ডার গ্রহণ করা সম্ভব নয়।");
+    if (!orderDetails.customerName?.trim()) {
+      alert("অনুগ্রহ করে আপনার নামটি লিখুন!");
+      return;
+    }
+    if (!selectedPlan) {
+      alert("অনুগ্রহ করে একটি প্যাকেজ সিলেক্ট করুন!");
+      return;
+    }
+    if (!orderDetails.trxId?.trim()) {
+      alert("অনুগ্রহ করে পেমেন্ট করার পর Transaction ID (TrxID) দিন। পেমেন্ট তথ্য ছাড়া অর্ডার গ্রহণ করা হবে না।");
+      return;
+    }
     
     const plan = PRICING_PLANS.find(p => p.id === selectedPlan);
     const totalAmount = plan?.price || 0;
@@ -91,30 +99,28 @@ const App: React.FC = () => {
       </div>
 
       {/* Header */}
-      <header 
-        onClick={() => window.open(YT_CHANNEL_URL, '_blank')}
-        className="relative z-[110] bg-slate-950/95 backdrop-blur-2xl border-b border-white/5 py-5 px-6 flex justify-between items-center sticky top-0 shadow-2xl cursor-pointer active:opacity-80 transition-all"
-      >
-        <div className="flex items-center gap-4">
+      <header className="relative z-[110] bg-slate-950/95 backdrop-blur-2xl border-b border-white/5 py-5 px-6 flex justify-between items-center sticky top-0 shadow-2xl">
+        <div className="flex items-center gap-4 cursor-pointer" onClick={() => window.open(YT_CHANNEL_URL, '_blank')}>
           <div className="relative">
              <img 
                src={YT_PROFILE_PIC} 
                alt="Profile" 
-               className="h-14 w-14 rounded-full border-2 border-indigo-500 shadow-xl object-cover" 
-               onError={(e) => { e.currentTarget.src = 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' }} 
+               className="h-12 w-12 rounded-full border-2 border-indigo-500 shadow-xl object-cover" 
              />
-             <span className="absolute bottom-0 right-0 h-4 w-4 bg-green-500 border-2 border-slate-950 rounded-full"></span>
+             <span className="absolute bottom-0 right-0 h-3.5 w-3.5 bg-green-500 border-2 border-slate-950 rounded-full"></span>
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <h1 className="text-lg font-black tracking-tighter text-white">{YT_CHANNEL_NAME}</h1>
-              <span className="h-4 w-4 bg-blue-500 rounded-full flex items-center justify-center text-[8px] text-white">✓</span>
+              <h1 className="text-md font-black tracking-tighter text-white">{YT_CHANNEL_NAME}</h1>
+              <span className="h-3.5 w-3.5 bg-blue-500 rounded-full flex items-center justify-center text-[7px] text-white">✓</span>
             </div>
-            <p className="text-[10px] font-bold text-indigo-400">{YT_SUBSCRIBERS} মেম্বার • ভেরিফাইড</p>
+            <p className="text-[9px] font-bold text-indigo-400">{YT_SUBSCRIBERS} মেম্বার</p>
           </div>
         </div>
-        <div className="bg-red-600/10 text-red-500 p-3 rounded-2xl border border-red-500/20">
-          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" className="h-6 w-6 grayscale brightness-125" alt="YT" />
+        <div className="flex gap-2">
+            <button onClick={() => window.open(`https://wa.me/88${CONTACT_NUMBER.replace('-', '')}`)} className="bg-green-600/10 text-green-500 p-2.5 rounded-xl border border-green-500/20 active:scale-95 transition-all">
+              <span className="text-xl">💬</span>
+            </button>
         </div>
       </header>
 
@@ -123,16 +129,35 @@ const App: React.FC = () => {
         {activeTab === 'home' && (
           <div className="space-y-12 animate-fade-in">
             {/* Hero Section */}
-            <section className="text-center py-6">
+            <section className="text-center py-6 flex flex-col items-center">
+              {/* Profile Image Highlight */}
+              <div 
+                className="relative mb-8 group cursor-pointer"
+                onClick={() => window.open(YT_CHANNEL_URL, '_blank')}
+              >
+                <div className="absolute inset-0 bg-indigo-600 blur-[40px] opacity-30 group-hover:opacity-50 transition-opacity rounded-full animate-pulse"></div>
+                <div className="relative">
+                  <img 
+                    src={YT_PROFILE_PIC} 
+                    alt="Mister Bangla" 
+                    className="h-32 w-32 md:h-40 md:w-40 rounded-full border-4 border-indigo-500/50 object-cover shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-indigo-600 text-white text-[10px] font-black px-4 py-1.5 rounded-full border-2 border-slate-950 flex items-center gap-1.5 shadow-2xl whitespace-nowrap">
+                    <span>ভেরিফাইড ইউটিউবার</span>
+                    <span className="h-3.5 w-3.5 bg-white text-indigo-600 rounded-full flex items-center justify-center text-[8px]">✓</span>
+                  </div>
+                </div>
+              </div>
+
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-400 text-[9px] font-black mb-6 uppercase tracking-widest">১.২৪ লাখ ক্রিয়েটরের বিশ্বস্ত প্ল্যাটফর্ম 🛡️</div>
               <h2 className="text-4xl md:text-6xl font-black mb-6 leading-tight tracking-tighter">কন্টেন্টকে দিন <br/><span className="gradient-text italic">রাজকীয় ভাইরাল</span> লুক</h2>
-              <p className="text-slate-400 text-sm max-w-sm mx-auto mb-10 leading-relaxed font-medium">আমরা আপনার ভিডিওকে করে তুলি অনন্য এবং প্রফেশনাল। আমাদের ১ লক্ষ ২৪ হাজার মেম্বারের ভেরিফাইড চ্যানেল ঘুরে আসার আমন্ত্রণ রইলো।</p>
+              <p className="text-slate-400 text-sm max-w-sm mx-auto mb-10 leading-relaxed font-medium">আমরা আপনার ভিডিওকে করে তুলি অনন্য এবং প্রফেশনাল। আমাদের ভেরিফাইড প্রোফাইল ও কাজের নমুনা দেখুন।</p>
               
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 w-full max-w-sm">
                  <button onClick={() => setActiveTab('pricing')} className="bg-indigo-600 w-full py-5 rounded-2xl text-lg font-black shadow-2xl active:scale-95 transition-all border-t border-white/10">প্যাকেজ দেখুন 💎</button>
                  <button onClick={() => window.open(YT_CHANNEL_URL, '_blank')} className="bg-red-600/20 border border-red-500/20 text-red-500 w-full py-5 rounded-2xl text-lg font-black active:scale-95 transition-all flex items-center justify-center gap-3">
                    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" className="h-6 w-6" alt="YT" />
-                   ভেরিফাইড চ্যানেল ভিজিট
+                   অফিসিয়াল চ্যানেল ভিজিট
                  </button>
               </div>
             </section>
@@ -148,49 +173,23 @@ const App: React.FC = () => {
                   <div className="bg-indigo-600/20 p-3 rounded-2xl text-indigo-400 text-xl shadow-inner">🛡️</div>
                   <div>
                     <h4 className="font-black text-sm text-white">ভেরিফাইড ও বিশ্বস্ত</h4>
-                    <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">১ লক্ষ ২৪ হাজারের বেশি সাবস্ক্রাইবার বিশিষ্ট ভেরিফাইড চ্যানেল এবং দীর্ঘদিনের অভিজ্ঞতা আমাদের বিশ্বস্ততার প্রমাণ।</p>
+                    <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">১ লক্ষ ২৪ হাজারের বেশি সাবস্ক্রাইবার বিশিষ্ট ভেরিফাইড চ্যানেল আমাদের প্রধান শক্তি।</p>
                   </div>
                 </div>
                 <div className="glass-panel p-6 rounded-3xl border-white/5 flex gap-4 items-start shadow-xl">
                   <div className="bg-rose-600/20 p-3 rounded-2xl text-rose-400 text-xl shadow-inner">⚡</div>
                   <div>
-                    <h4 className="font-black text-sm text-white">প্রফেশনাল এডিটিং</h4>
-                    <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">আমরা প্রতিটি ভিডিওতে সর্বোচ্চ মান বজায় রাখি এবং নির্ধারিত সময়ের মধ্যে ডেলিভারি নিশ্চিত করি।</p>
+                    <h4 className="font-black text-sm text-white">সুপার ফাস্ট ডেলিভারি</h4>
+                    <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">আমরা সময়ের মূল্য বুঝি। প্রতিটি কাজ নির্ধারিত সময়ের মধ্যেই আপনার হাতে পৌঁছে দেওয়ার নিশ্চয়তা দিই।</p>
                   </div>
                 </div>
                 <div className="glass-panel p-6 rounded-3xl border-white/5 flex gap-4 items-start shadow-xl">
-                  <div className="bg-green-600/20 p-3 rounded-2xl text-green-400 text-xl shadow-inner">🤝</div>
+                  <div className="bg-green-600/20 p-3 rounded-2xl text-green-400 text-xl shadow-inner">💎</div>
                   <div>
-                    <h4 className="font-black text-sm text-white">২৪/৭ কাস্টমার সাপোর্ট</h4>
-                    <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">অর্ডার থেকে ডেলিভারি পর্যন্ত যেকোনো প্রয়োজনে আমাদের সাপোর্ট টিম আপনার পাশে আছে।</p>
+                    <h4 className="font-black text-sm text-white">প্রিমিয়াম ভাইরাল এডিটিং</h4>
+                    <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">আপনার ভিডিওকে ভাইরাল করার জন্য প্রয়োজনীয় সব আধুনিক ইফেক্টস এবং টেকনিক আমরা ব্যবহার করি।</p>
                   </div>
                 </div>
-              </div>
-            </section>
-
-            {/* Social Media Links - Restored All 4 */}
-            <section className="space-y-6">
-              <h3 className="text-xl font-black italic px-2 flex items-center gap-2">
-                <span className="h-1 w-8 bg-indigo-500 rounded-full"></span>
-                আমাদের সোশ্যাল মিডিয়া
-              </h3>
-              <div className="grid grid-cols-2 gap-4">
-                <a href={SOCIAL_LINKS.youtube} target="_blank" rel="noreferrer" className="group glass-panel p-5 rounded-3xl border-red-500/10 hover:border-red-500/40 transition-all active:scale-95 shadow-xl">
-                  <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" className="h-8 w-8 mb-3" alt="YouTube" />
-                  <h4 className="font-black text-sm text-white">YouTube</h4>
-                </a>
-                <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noreferrer" className="group glass-panel p-5 rounded-3xl border-blue-500/10 hover:border-blue-500/40 transition-all active:scale-95 shadow-xl">
-                  <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" className="h-8 w-8 mb-3" alt="Facebook" />
-                  <h4 className="font-black text-sm text-white">Facebook</h4>
-                </a>
-                <a href={SOCIAL_LINKS.tiktok} target="_blank" rel="noreferrer" className="group glass-panel p-5 rounded-3xl border-slate-500/10 hover:border-white/20 transition-all active:scale-95 shadow-xl">
-                  <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" className="h-8 w-8 mb-3 invert" alt="TikTok" />
-                  <h4 className="font-black text-sm text-white">TikTok</h4>
-                </a>
-                <a href={SOCIAL_LINKS.telegram} target="_blank" rel="noreferrer" className="group glass-panel p-5 rounded-3xl border-sky-500/10 hover:border-sky-500/40 transition-all active:scale-95 shadow-xl">
-                  <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" className="h-8 w-8 mb-3" alt="Telegram" />
-                  <h4 className="font-black text-sm text-white">Telegram</h4>
-                </a>
               </div>
             </section>
 
@@ -198,22 +197,16 @@ const App: React.FC = () => {
             <section className="space-y-6 pb-6">
               <h3 className="text-xl font-black italic px-2 flex items-center gap-2">
                  <span className="h-1 w-8 bg-red-600 rounded-full"></span>
-                 কাজের নমুনা (Portfolio)
+                 কাজের নমুনা
               </h3>
               <div className="space-y-6">
                 {PORTFOLIO_VIDEOS.map((v) => (
-                  <div key={v.id} onClick={() => window.open(v.url, '_blank')} className="glass-panel rounded-[2rem] overflow-hidden border-white/5 active:border-indigo-500/50 transition-all shadow-2xl cursor-pointer group">
+                  <div key={v.id} onClick={() => window.open(v.url, '_blank')} className="glass-panel rounded-[2.5rem] overflow-hidden border-white/5 active:border-indigo-500/50 transition-all shadow-2xl cursor-pointer group">
                     <div className="aspect-video relative overflow-hidden">
                       <img src={v.thumbnail} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={v.title} />
-                      <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center">
-                        <div className="h-14 w-14 bg-red-600 rounded-full flex items-center justify-center text-white text-xl shadow-2xl animate-pulse">▶</div>
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <div className="h-14 w-14 bg-red-600 rounded-full flex items-center justify-center text-white text-xl shadow-2xl">▶</div>
                       </div>
-                    </div>
-                    <div className="p-5 flex justify-between items-center bg-slate-900/40">
-                      <div>
-                        <h4 className="font-black text-sm text-white">{v.title}</h4>
-                      </div>
-                      <span className="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center text-indigo-400">→</span>
                     </div>
                   </div>
                 ))}
@@ -227,7 +220,7 @@ const App: React.FC = () => {
             <h2 className="text-3xl font-black italic text-center">সার্ভিস <span className="gradient-text">প্যাকসমূহ</span></h2>
             <div className="space-y-6">
               {PRICING_PLANS.map((p) => (
-                <div key={p.id} onClick={() => { setSelectedPlan(p.id); setActiveTab('order'); }} className={`glass-panel p-6 rounded-3xl relative border-white/5 active:scale-95 transition-all shadow-xl ${p.id === 'STANDARD' ? 'border-indigo-500/40 bg-indigo-600/5 shadow-2xl ring-1 ring-indigo-500/20' : ''}`}>
+                <div key={p.id} onClick={() => { setSelectedPlan(p.id); setActiveTab('order'); }} className={`glass-panel p-6 rounded-3xl relative border-white/5 active:scale-95 transition-all shadow-xl ${p.id === 'STANDARD' ? 'border-indigo-500/40 bg-indigo-600/5 shadow-2xl' : ''}`}>
                   {p.badge && <div className="absolute -top-3 right-6 bg-gradient-to-r from-indigo-600 to-rose-500 text-white text-[8px] font-black px-4 py-1.5 rounded-full shadow-lg z-10">{p.badge}</div>}
                   <div className="flex justify-between items-start mb-4">
                     <div>
@@ -236,20 +229,16 @@ const App: React.FC = () => {
                     </div>
                     <div className="text-right">
                       <span className="text-2xl font-black text-white">৳{p.price}</span>
-                      <p className="text-[8px] text-slate-600 font-bold mt-1 uppercase">পার ভিডিও</p>
                     </div>
                   </div>
                   <div className="space-y-2 mb-6">
-                     <div className="grid grid-cols-1 gap-1.5">
-                       {p.features.map((f, i) => (
-                         <div key={i} className={`flex items-center gap-2 text-[11px] font-medium ${f.startsWith('✘') ? 'text-slate-600' : 'text-slate-400'}`}>
-                           <span className={f.startsWith('✓') ? 'text-green-500 font-black' : f.startsWith('✘') ? 'text-red-500 font-black' : 'text-indigo-500 font-black'}>{f.charAt(0)}</span> 
-                           {f.substring(2)}
-                         </div>
-                       ))}
-                     </div>
+                    {p.features.map((f, i) => (
+                      <div key={i} className={`flex items-center gap-2 text-[11px] font-medium ${f.startsWith('✘') ? 'text-slate-600' : 'text-slate-400'}`}>
+                        <span className={f.startsWith('✓') ? 'text-green-500' : 'text-red-500'}>{f.charAt(0)}</span> {f.substring(2)}
+                      </div>
+                    ))}
                   </div>
-                  <button className="w-full py-4 rounded-2xl font-black text-xs uppercase bg-indigo-600 shadow-xl border-t border-white/10 hover:bg-indigo-700 transition-colors">অর্ডার করুন →</button>
+                  <button className="w-full py-4 rounded-2xl font-black text-xs uppercase bg-indigo-600 shadow-xl border-t border-white/10">অর্ডার করুন →</button>
                 </div>
               ))}
             </div>
@@ -263,80 +252,57 @@ const App: React.FC = () => {
               <form onSubmit={handleOrderSubmit} className="space-y-6">
                 <div className="space-y-4">
                   <div>
-                    <label className="text-[9px] font-black text-slate-500 uppercase px-3 mb-2 block">আপনার নাম (আবশ্যক)</label>
-                    <input type="text" required placeholder="আপনার নাম লিখুন..." value={orderDetails.customerName} onChange={(e) => setOrderDetails({ ...orderDetails, customerName: e.target.value })} className="w-full bg-slate-900 border border-white/10 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-indigo-500 outline-none font-bold text-white text-sm" />
+                    <label className="text-[9px] font-black text-slate-500 uppercase px-3 mb-2 block tracking-widest">আপনার নাম (আবশ্যক)</label>
+                    <input type="text" required placeholder="আপনার নাম লিখুন..." value={orderDetails.customerName} onChange={(e) => setOrderDetails({ ...orderDetails, customerName: e.target.value })} className="w-full bg-slate-900 border border-white/10 rounded-2xl px-5 py-4 outline-none font-bold text-white text-sm focus:ring-1 focus:ring-indigo-500" />
                   </div>
                   <div>
-                    <label className="text-[9px] font-black text-slate-500 uppercase px-3 mb-2 block">প্যাকেজ বাছাই করুন (আবশ্যক)</label>
+                    <label className="text-[9px] font-black text-slate-500 uppercase px-3 mb-2 block tracking-widest">প্যাকেজ (আবশ্যক)</label>
                     <select required value={selectedPlan || ''} onChange={(e) => setSelectedPlan(e.target.value as ServiceType)} className="w-full bg-slate-900 border border-white/10 rounded-2xl px-5 py-4 outline-none font-bold text-sm text-white appearance-none">
-                      <option value="" disabled>সিলেক্ট করুন</option>
+                      <option value="" disabled>প্যাকেজ বাছাই করুন</option>
                       {PRICING_PLANS.map(p => <option key={p.id} value={p.id}>{p.title} (৳{p.price})</option>)}
                     </select>
                   </div>
 
-                  {/* Payment Method */}
                   <div>
-                    <label className="text-[9px] font-black text-slate-500 uppercase px-3 mb-2 block">পেমেন্ট মেথড (পার্সোনাল)</label>
+                    <label className="text-[9px] font-black text-slate-500 uppercase px-3 mb-2 block tracking-widest">পেমেন্ট মেথড (পার্সোনাল)</label>
                     <div className="grid grid-cols-2 gap-3">
-                      <button type="button" onClick={() => setOrderDetails({...orderDetails, paymentMethod: 'BKASH'})} className={`py-4 rounded-xl border flex items-center justify-center gap-2 font-black transition-all ${orderDetails.paymentMethod === 'BKASH' ? 'bg-indigo-600 border-indigo-500 shadow-lg scale-105' : 'bg-slate-900 border-white/5 text-slate-500 opacity-60'}`}>
-                        <span>বিকাশ</span>
-                      </button>
-                      <button type="button" onClick={() => setOrderDetails({...orderDetails, paymentMethod: 'NAGAD'})} className={`py-4 rounded-xl border flex items-center justify-center gap-2 font-black transition-all ${orderDetails.paymentMethod === 'NAGAD' ? 'bg-orange-600 border-orange-500 shadow-lg scale-105' : 'bg-slate-900 border-white/5 text-slate-500 opacity-60'}`}>
-                        <span>নগদ</span>
-                      </button>
-                    </div>
-                  </div>
-                  
-                  {/* Payment Type */}
-                  <div>
-                    <label className="text-[9px] font-black text-slate-500 uppercase px-3 mb-2 block">পেমেন্ট টাইপ</label>
-                    <div className="grid grid-cols-2 gap-3">
-                      <button type="button" onClick={() => setOrderDetails({...orderDetails, paymentType: 'ADVANCE'})} className={`py-3 rounded-xl border font-black text-[10px] uppercase transition-all ${orderDetails.paymentType === 'ADVANCE' ? 'bg-indigo-600 border-indigo-500 shadow-lg' : 'bg-slate-900 border-white/5 text-slate-500'}`}>৫০% অগ্রিম</button>
-                      <button type="button" onClick={() => setOrderDetails({...orderDetails, paymentType: 'FULL'})} className={`py-3 rounded-xl border font-black text-[10px] uppercase transition-all ${orderDetails.paymentType === 'FULL' ? 'bg-indigo-600 border-indigo-500 shadow-lg' : 'bg-slate-900 border-white/5 text-slate-500'}`}>ফুল পেমেন্ট</button>
+                      <button type="button" onClick={() => setOrderDetails({...orderDetails, paymentMethod: 'BKASH'})} className={`py-4 rounded-xl border flex items-center justify-center font-black transition-all ${orderDetails.paymentMethod === 'BKASH' ? 'bg-indigo-600 border-indigo-500 shadow-lg' : 'bg-slate-900 border-white/5 opacity-50'}`}>বিকাশ</button>
+                      <button type="button" onClick={() => setOrderDetails({...orderDetails, paymentMethod: 'NAGAD'})} className={`py-4 rounded-xl border flex items-center justify-center font-black transition-all ${orderDetails.paymentMethod === 'NAGAD' ? 'bg-orange-600 border-orange-500 shadow-lg' : 'bg-slate-900 border-white/5 opacity-50'}`}>নগদ</button>
                     </div>
                   </div>
 
                   <div>
                     <label className="text-[9px] font-black text-slate-500 uppercase px-3 mb-2 block tracking-widest">Transaction ID / TrxID (আবশ্যক)</label>
-                    <input type="text" required placeholder="টাকা পাঠিয়ে TrxID এখানে দিন" value={orderDetails.trxId} onChange={(e) => setOrderDetails({ ...orderDetails, trxId: e.target.value })} className="w-full bg-slate-900 border border-white/10 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-indigo-500 outline-none font-mono text-sm text-indigo-400 shadow-inner" />
+                    <input type="text" required placeholder="টাকা পাঠিয়ে TrxID এখানে দিন" value={orderDetails.trxId} onChange={(e) => setOrderDetails({ ...orderDetails, trxId: e.target.value })} className="w-full bg-slate-900 border border-white/10 rounded-2xl px-5 py-4 outline-none font-mono text-sm text-indigo-400 focus:ring-1 focus:ring-indigo-500" />
                   </div>
                 </div>
 
-                {/* Final Bill & Phone Info */}
-                <div className="p-6 bg-indigo-600/10 rounded-3xl border border-indigo-500/20 flex flex-col gap-4 shadow-xl">
-                  <div className="text-center mb-2">
-                    <p className="text-rose-500 text-[10px] font-black animate-pulse">⚠️ অবশ্যই "সেন্ড মানি" (Send Money) করবেন</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                     <div className="flex flex-col">
-                        <span className="text-[8px] font-black text-slate-500 uppercase">পার্সোনাল নম্বর:</span>
-                        <span className="text-xs font-bold text-indigo-400">({orderDetails.paymentMethod === 'BKASH' ? 'বিকাশ' : 'নগদ'})</span>
-                     </div>
-                     <div className="flex items-center gap-2">
-                        <span className="text-sm font-mono font-black text-white">{CONTACT_NUMBER}</span>
-                        <button type="button" onClick={handleCopy} className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase transition-all shadow-md ${copied ? 'bg-green-600 text-white' : 'bg-white/10 text-indigo-400 hover:bg-white/20 border border-white/10'}`}>
-                          {copied ? 'Copied!' : 'Copy'}
-                        </button>
-                     </div>
-                  </div>
-                  <div className="h-px bg-white/5 w-full"></div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-[8px] font-black text-slate-500 uppercase">এখন প্রদেয় পরিমাণ:</span>
-                    <div className="text-right">
-                      <span className="text-2xl font-black text-white">৳{payableAmount}</span>
+                {/* Bill Section */}
+                <div className="p-6 bg-indigo-600/10 rounded-3xl border border-indigo-500/20 flex flex-col gap-3 shadow-xl">
+                  <p className="text-rose-500 text-[10px] font-black text-center animate-pulse">⚠️ অবশ্যই "সেন্ড মানি" (Send Money) করবেন</p>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-slate-500 font-bold uppercase tracking-tighter">পার্সোনাল নম্বর:</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono font-black text-white">{CONTACT_NUMBER}</span>
+                      <button type="button" onClick={handleCopy} className="bg-white/10 px-2 py-1 rounded-lg text-[10px] text-indigo-400 active:scale-90 transition-all">{copied ? 'Copied' : 'Copy'}</button>
                     </div>
                   </div>
+                  <div className="h-px bg-white/5"></div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-500 text-xs font-bold uppercase tracking-tighter">প্রদেয় পরিমাণ:</span>
+                    <span className="text-2xl font-black text-white">৳{payableAmount}</span>
+                  </div>
                 </div>
 
-                <button type="submit" className="w-full bg-indigo-600 py-5 rounded-2xl text-lg font-black shadow-2xl active:scale-95 transition-all border-t border-white/10 hover:bg-indigo-700">অর্ডার প্লেস করুন 🚀</button>
+                <button type="submit" className="w-full bg-indigo-600 py-5 rounded-2xl text-lg font-black shadow-2xl border-t border-white/10 active:scale-95 transition-all">অর্ডার প্লেস করুন 🚀</button>
               </form>
             </div>
           </div>
         )}
       </main>
 
-      {/* Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-[120] glass-panel border-t border-white/5 px-4 py-4 flex justify-around items-center rounded-t-[2.5rem] shadow-[0_-15px_50px_rgba(0,0,0,0.6)] backdrop-blur-3xl">
+      {/* Nav */}
+      <nav className="fixed bottom-0 left-0 right-0 z-[120] glass-panel border-t border-white/5 px-4 py-4 flex justify-around items-center rounded-t-[2.5rem] shadow-2xl backdrop-blur-3xl">
         <button onClick={() => setActiveTab('home')} className={`flex flex-col items-center gap-1.5 transition-all ${activeTab === 'home' ? 'text-indigo-400 scale-110' : 'text-slate-500'}`}>
           <span className="text-xl">🏠</span>
           <span className="text-[8px] font-black uppercase tracking-widest">Home</span>
@@ -349,7 +315,7 @@ const App: React.FC = () => {
           <span className="text-xl">🛒</span>
           <span className="text-[8px] font-black uppercase tracking-widest">Order</span>
         </button>
-        <button onClick={() => window.open(`https://wa.me/88${CONTACT_NUMBER.replace('-', '')}`)} className={`flex flex-col items-center gap-1.5 transition-all text-slate-500 hover:text-green-500`}>
+        <button onClick={() => window.open(`https://wa.me/88${CONTACT_NUMBER.replace('-', '')}`)} className="flex flex-col items-center gap-1.5 text-slate-500 active:text-green-500">
           <span className="text-xl">💬</span>
           <span className="text-[8px] font-black uppercase tracking-widest">Chat</span>
         </button>
