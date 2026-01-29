@@ -14,7 +14,7 @@ import {
 } from './constants';
 import { ServiceType, OrderDetails } from './types';
 
-// 3D Animated Logo Component
+// 3D Animated Logo Component - Image on all visible faces
 const ThreeDLogo = ({ size = "16" }: { size?: string }) => (
   <div className="relative flex items-center justify-center py-4">
     {/* 3D Container */}
@@ -22,26 +22,29 @@ const ThreeDLogo = ({ size = "16" }: { size?: string }) => (
       <div className="logo-3d-cube">
         {/* Front Face */}
         <div className="cube-face cube-front">
-          <img src={YT_PROFILE_PIC} alt="Logo" className="w-full h-full object-cover rounded-xl" />
+          <img src={YT_PROFILE_PIC} alt="Logo" className="w-full h-full object-cover" />
         </div>
         {/* Back Face */}
         <div className="cube-face cube-back">
-          <div className="w-full h-full bg-slate-900 flex items-center justify-center border-2 border-indigo-500 rounded-xl">
-             <span className="text-[8px] font-black text-indigo-400">STUDIO</span>
-          </div>
+          <img src={YT_PROFILE_PIC} alt="Logo" className="w-full h-full object-cover" />
         </div>
         {/* Left Face */}
-        <div className="cube-face cube-left bg-gradient-to-br from-indigo-900 to-slate-950"></div>
+        <div className="cube-face cube-left">
+          <img src={YT_PROFILE_PIC} alt="Logo" className="w-full h-full object-cover brightness-75" />
+        </div>
         {/* Right Face */}
-        <div className="cube-face cube-right bg-gradient-to-bl from-purple-900 to-slate-950"></div>
+        <div className="cube-face cube-right">
+          <img src={YT_PROFILE_PIC} alt="Logo" className="w-full h-full object-cover brightness-75" />
+        </div>
         {/* Top Face */}
-        <div className="cube-face cube-top bg-slate-800"></div>
+        <div className="cube-face cube-top bg-gradient-to-t from-indigo-600 to-indigo-900 border-indigo-400/30"></div>
         {/* Bottom Face */}
-        <div className="cube-face cube-bottom bg-slate-800"></div>
+        <div className="cube-face cube-bottom bg-indigo-950 border-indigo-400/30"></div>
       </div>
     </div>
-    {/* Floor Shadow */}
-    <div className="absolute -bottom-2 w-12 h-2 bg-black/40 blur-md rounded-full"></div>
+    {/* Floor Shadow & Glow */}
+    <div className="absolute inset-0 bg-indigo-500/20 blur-[40px] rounded-full scale-150 -z-10 animate-pulse"></div>
+    <div className="absolute -bottom-4 w-16 h-2 bg-black/60 blur-lg rounded-full"></div>
   </div>
 );
 
@@ -122,7 +125,7 @@ const App: React.FC = () => {
       <header className="relative z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 py-3 px-6 flex justify-between items-center sticky top-0 shadow-lg">
         <div className="flex items-center gap-4">
           <div className="scale-50 -ml-4 -mr-4">
-            <ThreeDLogo size="12" />
+            <ThreeDLogo />
           </div>
           <div>
             <h1 className="text-sm font-black text-white uppercase tracking-tight">{YT_CHANNEL_NAME}</h1>

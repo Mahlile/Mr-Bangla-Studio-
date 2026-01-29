@@ -48,7 +48,7 @@
         .logo-3d-container {
           width: 80px;
           height: 80px;
-          perspective: 1000px;
+          perspective: 800px;
         }
 
         .logo-3d-cube {
@@ -56,15 +56,23 @@
           height: 100%;
           position: relative;
           transform-style: preserve-3d;
-          animation: spin3d 10s infinite linear;
+          animation: spin3d 8s infinite linear;
         }
 
         .cube-face {
           position: absolute;
           width: 80px;
           height: 80px;
-          border: 1px solid rgba(79, 70, 229, 0.3);
-          box-shadow: inset 0 0 15px rgba(79, 70, 229, 0.2);
+          border: 1px solid rgba(79, 70, 229, 0.4);
+          overflow: hidden;
+          backface-visibility: visible;
+          box-shadow: inset 0 0 20px rgba(79, 70, 229, 0.1);
+        }
+
+        .cube-face img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
 
         .cube-front  { transform: rotateY(  0deg) translateZ(40px); }
@@ -75,15 +83,8 @@
         .cube-bottom { transform: rotateX(-90deg) translateZ(40px); }
 
         @keyframes spin3d {
-          from { transform: rotateX(0deg) rotateY(0deg); }
-          to { transform: rotateX(360deg) rotateY(360deg); }
-        }
-
-        .animate-blink {
-          animation: blink 1s step-start infinite;
-        }
-        @keyframes blink {
-          50% { opacity: 0; }
+          0% { transform: rotateX(-15deg) rotateY(0deg); }
+          100% { transform: rotateX(-15deg) rotateY(360deg); }
         }
 
         .shadow-3xl { box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8), 0 0 40px -10px rgba(79, 70, 229, 0.2); }
