@@ -14,18 +14,34 @@ import {
 } from './constants';
 import { ServiceType, OrderDetails } from './types';
 
-// Animated Logo Component for the Header
-const AnimatedLogo = ({ size = "10" }: { size?: string }) => (
-  <div className="relative flex items-center justify-center">
-    <div className={`absolute inset-0 bg-indigo-500 rounded-full blur-md opacity-30 animate-pulse`}></div>
-    <div className="relative group">
-      <div className={`absolute -inset-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-rose-500 rounded-full blur-[2px] opacity-70 animate-spin-slow`}></div>
-      <img 
-        src={YT_PROFILE_PIC} 
-        alt="Logo" 
-        className={`relative h-${size} w-${size} rounded-full border border-slate-900 object-cover shadow-xl`} 
-      />
+// 3D Animated Logo Component
+const ThreeDLogo = ({ size = "16" }: { size?: string }) => (
+  <div className="relative flex items-center justify-center py-4">
+    {/* 3D Container */}
+    <div className="logo-3d-container">
+      <div className="logo-3d-cube">
+        {/* Front Face */}
+        <div className="cube-face cube-front">
+          <img src={YT_PROFILE_PIC} alt="Logo" className="w-full h-full object-cover rounded-xl" />
+        </div>
+        {/* Back Face */}
+        <div className="cube-face cube-back">
+          <div className="w-full h-full bg-slate-900 flex items-center justify-center border-2 border-indigo-500 rounded-xl">
+             <span className="text-[8px] font-black text-indigo-400">STUDIO</span>
+          </div>
+        </div>
+        {/* Left Face */}
+        <div className="cube-face cube-left bg-gradient-to-br from-indigo-900 to-slate-950"></div>
+        {/* Right Face */}
+        <div className="cube-face cube-right bg-gradient-to-bl from-purple-900 to-slate-950"></div>
+        {/* Top Face */}
+        <div className="cube-face cube-top bg-slate-800"></div>
+        {/* Bottom Face */}
+        <div className="cube-face cube-bottom bg-slate-800"></div>
+      </div>
     </div>
+    {/* Floor Shadow */}
+    <div className="absolute -bottom-2 w-12 h-2 bg-black/40 blur-md rounded-full"></div>
   </div>
 );
 
@@ -103,9 +119,11 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      <header className="relative z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 py-4 px-6 flex justify-between items-center sticky top-0 shadow-lg">
-        <div className="flex items-center gap-3">
-          <AnimatedLogo size="10" />
+      <header className="relative z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 py-3 px-6 flex justify-between items-center sticky top-0 shadow-lg">
+        <div className="flex items-center gap-4">
+          <div className="scale-50 -ml-4 -mr-4">
+            <ThreeDLogo size="12" />
+          </div>
           <div>
             <h1 className="text-sm font-black text-white uppercase tracking-tight">{YT_CHANNEL_NAME}</h1>
             <p className="text-[8px] text-indigo-400 font-bold uppercase tracking-[0.2em]">{YT_SUBSCRIBERS} মেম্বার</p>
@@ -120,23 +138,20 @@ const App: React.FC = () => {
         {activeTab === 'home' && (
           <div className="space-y-12 animate-fade-in pb-10">
             <section className="text-center py-6">
-              <div className="flex justify-center mb-8">
-                <AnimatedLogo size="28" />
+              <div className="flex justify-center mb-12">
+                <ThreeDLogo />
               </div>
               <div className="space-y-4">
-                <h2 className="text-3xl font-black leading-tight">আপনার ভিডিওকে দিন <br/><span className="gradient-text italic">রাজকীয় ভাইরাল লুক</span></h2>
-                <p className="text-slate-400 text-sm px-8 font-medium">১ লক্ষ ২৪ হাজার মেম্বারের বিশ্বস্ত এবং ভেরিফাইড ভিডিও এডিটিং পার্টনার।</p>
+                <h2 className="text-3xl font-black leading-tight">ভাইরাল ভিডিও তৈরির <br/><span className="gradient-text italic">সেরা ডেস্টিনেশন</span></h2>
+                <p className="text-slate-400 text-sm px-8 font-medium italic">🔥 ঘুরে আসুন আমাদের ১২৪k+ ভেরিফাইড চ্যানেলে!</p>
               </div>
               
               <div className="mt-10 flex flex-col gap-4">
                 <button onClick={() => setActiveTab('pricing')} className="bg-gradient-to-r from-indigo-600 to-indigo-700 w-full py-4 rounded-2xl font-black shadow-[0_10px_40px_rgba(79,70,229,0.4)] active:scale-95 transition-all text-white border border-indigo-500/30">প্যাকেজ দেখুন 💎</button>
-                <div className="space-y-2">
-                  <button onClick={() => window.open(YT_CHANNEL_URL, '_blank')} className="bg-white/5 border border-white/10 w-full py-4 rounded-2xl font-black active:scale-95 transition-all flex items-center justify-center gap-2 group">
-                    <span>ইউটিউব চ্যানেল</span>
-                    <span className="text-indigo-400 group-hover:translate-x-1 transition-transform">→</span>
-                  </button>
-                  <p className="text-[10px] font-bold text-slate-400 italic">🔥 ঘুরে আসুন আমাদের ১২৪k+ ভেরিফাইড চ্যানেলে!</p>
-                </div>
+                <button onClick={() => window.open(YT_CHANNEL_URL, '_blank')} className="bg-white/5 border border-white/10 w-full py-4 rounded-2xl font-black active:scale-95 transition-all flex items-center justify-center gap-2 group">
+                  <span>ইউটিউব চ্যানেল ভিজিট করুন</span>
+                  <span className="text-indigo-400 group-hover:translate-x-1 transition-transform">→</span>
+                </button>
               </div>
             </section>
 
@@ -274,7 +289,7 @@ const App: React.FC = () => {
                 <div className="p-6 bg-slate-900/80 rounded-3xl border border-white/5 text-center space-y-4 shadow-inner relative overflow-hidden">
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-rose-500 to-transparent opacity-50"></div>
                   <div className="space-y-1">
-                    <p className="text-[11px] font-black text-rose-500 uppercase tracking-widest animate-pulse">⚠️ পার্সোনাল সেন্ড মানি করুন</p>
+                    <p className="text-[11px] font-black text-rose-500 uppercase tracking-widest">⚠️ পার্সোনাল সেন্ড মানি করুন</p>
                     <p className="text-3xl font-black text-white tracking-tighter tabular-nums selection:bg-indigo-500">{CONTACT_NUMBER}</p>
                   </div>
                   <button type="button" onClick={handleCopy} className="bg-indigo-600 text-white px-8 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-indigo-500/20 active:scale-95 transition-all">{copied ? 'Copied!' : 'Copy Number'}</button>
