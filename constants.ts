@@ -7,6 +7,34 @@ export const YT_CHANNEL_NAME = "মিস্টার বাংলা Official";
 export const YT_PROFILE_PIC = "https://cdn-icons-png.flaticon.com/512/3658/3658959.png";
 export const YT_CHANNEL_URL = "https://youtube.com/@misterbanglaofficial";
 
+export const CAPCUT_PRO_PLAN = {
+  id: 'CAPCUT',
+  title: 'Capcut Pro APK',
+  price: 50,
+  deliveryTime: '৫ মিনিট',
+  badge: 'লাইফটাইম এক্সেস ♾️',
+  color: 'from-emerald-600 to-teal-900',
+  description: 'সব প্রো ফিচার আনলক করা লেটেস্ট ক্যাপকাট প্রো এপিকে। ১০০% সেফ।',
+  features: [
+    '✨ No Watermark (ওয়াটারমার্ক নেই)',
+    '🔥 All Pro Effects Unlocked (সব প্রো এফেক্ট)',
+    '🎥 4K Ultra HD Export (৪কে এক্সপোর্ট)',
+    '🎭 Premium Transitions (প্রিমিয়াম ট্রানজিশন)',
+    '🌈 Pro Color Grading Filters (কালার ফিল্টার)',
+    '✂️ Multi-track Advanced Editing (মাল্টি-ট্র্যাক)',
+    '🎙️ AI Text-to-Speech Pro (এআই ভয়েস প্রো)',
+    '🖼️ Auto Background Remover (ব্যাকগ্রাউন্ড রিমুভ)',
+    '⚡ Pro Speed Ramping (স্পিড র‍্যাম্পিং)',
+    '🎶 Premium Music & SFX (প্রিমিয়াম মিউজিক)',
+    '🧊 Exclusive 3D Zoom (৩ডি জুম এফেক্ট)',
+    '🎞️ Pro Chroma Key (গ্রিন স্ক্রিন প্রো)',
+    '✍️ Aesthetic Custom Fonts (কাস্টম ফন্ট)',
+    '📱 No Lag, Smooth Performance (ল্যাগ ফ্রি)',
+    '🛡️ 100% Safe & Secure File (নিরাপদ ফাইল)',
+    '♾️ Lifetime Subscription (লাইফটাইম সুবিধা)'
+  ]
+};
+
 export const PRICING_PLANS = [
   {
     id: 'TRIAL',
@@ -101,7 +129,7 @@ export const PRICING_PLANS = [
       '৪কে (4K) রাজকীয় সিনেমাটিক ফিনিশ',
       'পূর্ণাঙ্গ মুভি স্টাইল এডিটিং',
       'ড্রোন ফুটেজ কালার অপ্টিমাইজেশন',
-      'ইমোショナル ব্যাকগ্রাউন্ড স্কোর সিঙ্ক',
+      'イমোশনাল ব্যাকগ্রাউন্ড স্কোর সিঙ্ক',
       'মুভি পোস্টার ডিজাইন ফ্রি',
       'রাজকীয় ইন্ট্রো ও আউটরো',
       'সিনেমাটিক টেক্সট আর্ট এনিমেশন',

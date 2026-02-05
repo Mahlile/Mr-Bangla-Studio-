@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { 
   PRICING_PLANS, 
   SONG_PLANS,
+  CAPCUT_PRO_PLAN,
   CONTACT_NUMBER, 
   YT_BASE_SUBS,
   YT_CHANNEL_NAME, 
@@ -97,10 +98,10 @@ const ThreeDLogo = () => (
 );
 
 const NotificationTicker = () => {
-  // A larger pool of names and places to simulate "no repeats for 1000 people"
-  const names = ['শাকিল', 'রানা', 'আরিফ', 'রাজু', 'ফাহিম', 'শুভ', 'তপু', 'হাসান', 'সোহেল', 'মিম', 'রাফি', 'জিসান', 'আয়ান', 'সিয়াম', 'মাহিন', 'তৌসিফ', 'নাবিল', 'সামিন', 'আরমান', 'সজল'];
+  const names = ['শাকিল', 'রানা', 'আরিফ', 'রাজু', 'ফাহিম', 'শুভ', 'তপু', 'হাসান', 'সোহেল', 'মিম', 'রাফি', 'জিসান', 'আয়ান', 'সিয়াম', 'মাহিন', 'তৌসিফ', 'নাবিল', 'সামিন', 'আরমান', 'সজল', 'রাসেল', 'পার্থ', 'আকাশ', 'মিরাজ', 'শাকওয়াত'];
   const places = ['ঢাকা', 'চট্টগ্রাম', 'সিলেট', 'রাজশাহী', 'খুলনা', 'বরিশাল', 'কুমিল্লা', 'নোয়াখালী', 'বগুড়া', 'ময়মনসিংহ', 'গাজীপুর', 'রংপুর'];
-  const actions = [
+  
+  const generalActions = [
     'এইমাত্র ৩টি অর্ডারের কাজ দিয়েছেন',
     'তার ৫০০ টাকার ভিডিও বুঝে পেয়েছেন',
     '১০০ টাকার গানের প্যাক নিয়েছেন',
@@ -113,25 +114,37 @@ const NotificationTicker = () => {
     '২০০ টাকার প্রিয়তমা প্যাক নিয়েছেন'
   ];
 
+  const capcutActions = [
+    '৫০ টাকার Capcut Pro APK অর্ডার করেছেন',
+    'এইমাত্র Capcut Pro লাইফটাইম প্যাক নিয়েছেন',
+    'Capcut Pro APK বুঝে পেয়েছেন এবং খুশি',
+    '৫০ টাকার ক্যাপকাট প্রো প্যাক অর্ডার করেছেন'
+  ];
+
   const [current, setCurrent] = useState("");
   const usedNamesRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     const generateMessage = () => {
+      const isCapcutActivity = Math.random() > 0.5;
+      
       let randomName = names[Math.floor(Math.random() * names.length)];
-      // If we've used this name recently, try to pick another (simulating the "no repeat" rule)
       if (usedNamesRef.current.has(randomName) && usedNamesRef.current.size < names.length) {
-        randomName = names.find(n => !usedNamesRef.current.has(n)) || randomName;
+        const available = names.filter(n => !usedNamesRef.current.has(n));
+        if (available.length > 0) {
+          randomName = available[Math.floor(Math.random() * available.length)];
+        }
       }
       
       usedNamesRef.current.add(randomName);
-      if (usedNamesRef.current.size > 15) { // Clear history after a while to keep it fresh
+      if (usedNamesRef.current.size >= names.length - 2) { 
         usedNamesRef.current.clear();
       }
 
       const randomPlace = places[Math.floor(Math.random() * places.length)];
-      const randomAction = actions[Math.floor(Math.random() * actions.length)];
-      const icon = ['🔥', '✅', '🚀', '🌹', '✨', '🎬'][Math.floor(Math.random() * 6)];
+      const actionPool = isCapcutActivity ? capcutActions : generalActions;
+      const randomAction = actionPool[Math.floor(Math.random() * actionPool.length)];
+      const icon = isCapcutActivity ? '🚀' : ['🔥', '✅', '🚀', '🌹', '✨', '🎬'][Math.floor(Math.random() * 6)];
       
       return `${icon} ${randomName} (${randomPlace}) ${randomAction}`;
     };
@@ -154,7 +167,7 @@ const NotificationTicker = () => {
 };
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'home' | 'pricing' | 'order' | 'songs'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'pricing' | 'order' | 'songs' | 'capcut'>('home');
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [orderDetails, setOrderDetails] = useState<Partial<OrderDetails>>({
     customerName: '',
@@ -176,10 +189,11 @@ const App: React.FC = () => {
       alert("সব তথ্য দিন!");
       return;
     }
-    const payAmountVal = orderDetails.paymentType === 'ADVANCE' ? Math.ceil((selectedPlan?.price || 0) * 0.5) : (selectedPlan?.price || 0);
-    const payLabel = orderDetails.paymentType === 'ADVANCE' ? `৫০% অগ্রিম (৳${payAmountVal})` : `ফুল পেমেন্ট (৳${payAmountVal})`;
+    const isCapcut = selectedPlan.id === 'CAPCUT';
+    const finalPaymentType = isCapcut ? 'FULL' : orderDetails.paymentType;
+    const payAmountVal = finalPaymentType === 'ADVANCE' ? Math.ceil((selectedPlan?.price || 0) * 0.5) : (selectedPlan?.price || 0);
+    const payLabel = finalPaymentType === 'ADVANCE' ? `৫০% অগ্রিম (৳${payAmountVal})` : `ফুল পেমেন্ট (৳${payAmountVal})`;
     
-    // Updated WhatsApp message format as requested
     const waMessage = `✨ New Order: Mr Bangla Studio ✨
 👤 অর্ডার ডিটেইলস:
 👤 নাম: ${orderDetails.customerName}
@@ -188,12 +202,13 @@ const App: React.FC = () => {
 💳 পেমেন্ট মেথড: ${orderDetails.paymentMethod}
 💸 পেমেন্ট টাইপ: ${payLabel}
 🧾 TrxID: ${orderDetails.trxId}
-📌 *আমি নিচে আমার ভিডিও ফুটেজ এবং পেমেন্ট স্ক্রিনশট পাঠিয়ে দিচ্ছি। দ্রুত চেক করুন।*`;
+📌 *আমি নিচে পেমেন্ট স্ক্রিনশট পাঠিয়ে দিচ্ছি। দ্রুত চেক করুন।*`;
 
     window.open(`https://wa.me/88${CONTACT_NUMBER.replace('-', '')}?text=${encodeURIComponent(waMessage)}`, '_blank');
   };
 
-  const payableAmount = orderDetails.paymentType === 'ADVANCE' ? Math.ceil((selectedPlan?.price || 0) * 0.5) : (selectedPlan?.price || 0);
+  const isCapcutSelected = selectedPlan?.id === 'CAPCUT';
+  const payableAmount = (isCapcutSelected || orderDetails.paymentType === 'FULL') ? (selectedPlan?.price || 0) : Math.ceil((selectedPlan?.price || 0) * 0.5);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#01040f] text-slate-100 pb-20">
@@ -239,6 +254,9 @@ const App: React.FC = () => {
               <div className="mt-6 flex flex-col gap-4">
                 <button onClick={() => setActiveTab('pricing')} className="bg-gradient-to-r from-yellow-400 to-amber-600 w-full py-3.5 rounded-xl font-black shadow-xl text-slate-950 text-base border-b-[8px] border-amber-900 active:translate-y-1 active:border-b-0 transition-all uppercase tracking-tight">এডিটিং প্যাকেজ 💎</button>
                 <button onClick={() => setActiveTab('songs')} className="bg-gradient-to-r from-cyan-400 to-blue-600 w-full py-3.5 rounded-xl font-black shadow-xl text-white text-base border-b-[8px] border-blue-900 active:translate-y-1 active:border-b-0 transition-all uppercase tracking-tight">গানের প্যাকেজ 🎵</button>
+                <button onClick={() => setActiveTab('capcut')} className="bg-gradient-to-r from-emerald-500 to-teal-700 w-full py-4 rounded-xl font-black shadow-[0_0_20px_rgba(16,185,129,0.3)] text-white text-base border-b-[8px] border-teal-900 active:translate-y-1 active:border-b-0 transition-all uppercase tracking-tight flex items-center justify-center gap-2">
+                  <span>Capcut Pro apk 🚀</span>
+                </button>
               </div>
             </section>
 
@@ -327,6 +345,49 @@ const App: React.FC = () => {
                  ))}
                </div>
             </section>
+          </div>
+        )}
+
+        {activeTab === 'capcut' && (
+          <div className="space-y-6 animate-fade-in pb-12 pt-2">
+            <div className={`p-6 rounded-3xl border-4 border-emerald-500/30 bg-gradient-to-br from-emerald-900/40 to-slate-950 shadow-[0_0_40px_rgba(16,185,129,0.2)] relative overflow-hidden`}>
+               <div className="absolute -top-10 -right-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl"></div>
+               
+               <div className="text-center mb-8">
+                 <h2 className="text-3xl font-black text-white mb-2 uppercase italic tracking-tighter drop-shadow-lg">Capcut Pro <span className="text-emerald-400">APK</span></h2>
+                 <p className="text-emerald-300/80 text-[10px] font-black uppercase tracking-widest px-4 py-1 bg-emerald-500/10 rounded-full inline-block border border-emerald-500/20">Authorized Premium Tool</p>
+               </div>
+
+               <div className="flex flex-col gap-6 mb-8">
+                  <div className="bg-slate-950/80 p-5 rounded-2xl border border-white/5 flex justify-between items-center shadow-inner">
+                    <div>
+                      <p className="text-[10px] font-black text-slate-500 uppercase">মূল্য মাত্র:</p>
+                      <h3 className="text-3xl font-black text-white tabular-nums">৳৫০</h3>
+                    </div>
+                    <button onClick={() => { setSelectedPlan(CAPCUT_PRO_PLAN); setActiveTab('order'); }} className="bg-emerald-500 text-slate-950 px-8 py-3.5 rounded-xl font-black text-lg border-b-[8px] border-emerald-800 shadow-xl active:translate-y-1 active:border-b-0 uppercase tracking-widest">Order Now →</button>
+                  </div>
+
+                  <div className="space-y-4">
+                    <p className="text-[11px] font-black text-emerald-400 uppercase text-center flex items-center justify-center gap-2">
+                      <span className="w-8 h-[1px] bg-emerald-500/30"></span>
+                      যা যা পাবেন এই APK-তে
+                      <span className="w-8 h-[1px] bg-emerald-500/30"></span>
+                    </p>
+                    <div className="grid grid-cols-1 gap-3.5 bg-black/20 p-4 rounded-2xl border border-white/5">
+                      {CAPCUT_PRO_PLAN.features.map((f, i) => (
+                        <div key={i} className="flex items-center gap-4 group">
+                          <span className="text-lg group-hover:scale-125 transition-transform duration-300">{f.split(' ')[0]}</span>
+                          <span className="text-[11px] font-bold text-slate-200 uppercase tracking-tight">{f.split(' ').slice(1).join(' ')}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+               </div>
+
+               <p className="text-center text-[8px] text-slate-500 font-bold uppercase tracking-widest">মিস্টার বাংলা স্টুডিও গ্যারান্টিড নিরাপদ ফাইল</p>
+            </div>
+            
+            <button onClick={() => setActiveTab('home')} className="w-full py-4 text-slate-400 font-black text-xs uppercase tracking-widest bg-white/5 rounded-xl border border-white/5">← হোম পেজে ফিরে যান</button>
           </div>
         )}
 
@@ -441,8 +502,10 @@ const App: React.FC = () => {
                 <div className="space-y-3">
                    <p className="text-[10px] font-black text-slate-400 text-center uppercase tracking-tight">পেমেন্ট টাইপ</p>
                    <div className="grid grid-cols-2 gap-3">
-                     <button type="button" onClick={() => setOrderDetails({...orderDetails, paymentType: 'ADVANCE'})} className={`py-3 rounded-xl border-2 font-black transition-all text-[9px] tracking-tight ${orderDetails.paymentType === 'ADVANCE' ? 'bg-yellow-500 border-yellow-300 text-slate-950 shadow-md border-b-[8px] border-amber-800' : 'bg-slate-900/40 border-white/5 opacity-50'}`}>হাফ (৫০%)</button>
-                     <button type="button" onClick={() => setOrderDetails({...orderDetails, paymentType: 'FULL'})} className={`py-3 rounded-xl border-2 font-black transition-all text-[9px] tracking-tight ${orderDetails.paymentType === 'FULL' ? 'bg-green-600 border-green-300 text-white shadow-md border-b-[8px] border-green-950' : 'bg-slate-900/40 border-white/5 opacity-50'}`}>ফুল (১০০%)</button>
+                     {!isCapcutSelected && (
+                       <button type="button" onClick={() => setOrderDetails({...orderDetails, paymentType: 'ADVANCE'})} className={`py-3 rounded-xl border-2 font-black transition-all text-[9px] tracking-tight ${orderDetails.paymentType === 'ADVANCE' ? 'bg-yellow-500 border-yellow-300 text-slate-950 shadow-md border-b-[8px] border-amber-800' : 'bg-slate-900/40 border-white/5 opacity-50'}`}>হাফ (৫০%)</button>
+                     )}
+                     <button type="button" onClick={() => setOrderDetails({...orderDetails, paymentType: 'FULL'})} className={`py-3 rounded-xl border-2 font-black transition-all text-[9px] tracking-tight ${orderDetails.paymentType === 'FULL' || isCapcutSelected ? 'bg-green-600 border-green-300 text-white shadow-md border-b-[8px] border-green-950' : 'bg-slate-900/40 border-white/5 opacity-50'} ${isCapcutSelected ? 'col-span-2' : ''}`}>ফুল (১০০%)</button>
                    </div>
                 </div>
 
@@ -467,7 +530,8 @@ const App: React.FC = () => {
 
                 <div className="space-y-3">
                    <p className="text-[10px] font-black text-slate-400 text-center uppercase tracking-tight">Transaction ID (TrxID)</p>
-                   <input type="text" required placeholder="TrxID দিন" value={orderDetails.trxId} onChange={(e) => setOrderDetails({...orderDetails, trxId: e.target.value})} className="w-full bg-slate-950/60 border border-white/10 rounded-xl px-4 py-3.5 outline-none font-mono text-xl text-center text-yellow-400 focus:border-yellow-500 shadow-xl tracking-tight" />
+                   <p className="text-[9px] text-yellow-500/80 text-center font-bold mb-1 tracking-tight">ট্রানজেকশন এর স্কিনশট তুলে রাখলে এই ঘরে শুধু ss লিখেই হবে</p>
+                   <input type="text" required placeholder="TrxID দিন অথবা ss লিখুন" value={orderDetails.trxId} onChange={(e) => setOrderDetails({...orderDetails, trxId: e.target.value})} className="w-full bg-slate-950/60 border border-white/10 rounded-xl px-4 py-3.5 outline-none font-mono text-xl text-center text-yellow-400 focus:border-yellow-500 shadow-xl tracking-tight" />
                 </div>
 
                 <button type="submit" className="w-full bg-gradient-to-r from-yellow-400 to-amber-600 py-4.5 rounded-xl text-lg font-black shadow-lg text-slate-950 uppercase border-b-[10px] border-amber-900 active:translate-y-1 active:border-b-0 transition-all tracking-tight">কনফার্ম করুন 🚀</button>
