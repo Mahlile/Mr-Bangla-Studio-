@@ -5,6 +5,7 @@ import {
   PRICING_PLANS, 
   SONG_PLANS,
   CAPCUT_PRO_PLAN,
+  CAPCUT_PRO_MAX_PLAN,
   CONTACT_NUMBER, 
   YT_BASE_SUBS,
   YT_CHANNEL_NAME, 
@@ -115,10 +116,10 @@ const NotificationTicker = () => {
   ];
 
   const capcutActions = [
-    '৫০ টাকার Capcut Pro APK অর্ডার করেছেন',
-    'এইমাত্র Capcut Pro লাইফটাইম প্যাক নিয়েছেন',
-    'Capcut Pro APK বুঝে পেয়েছেন এবং খুশি',
-    '৫০ টাকার ক্যাপকাট প্রো প্যাক অর্ডার করেছেন'
+    '৭০ টাকার Capcut Pro APK অর্ডার করেছেন',
+    'এইমাত্র Chinese Capcut Pro Max প্যাক নিয়েছেন',
+    'Capcut Pro Max বুঝে পেয়েছেন এবং খুশি',
+    '১২৫ টাকার ক্যাপকাট প্রো ম্যাক্স অর্ডার করেছেন'
   ];
 
   const [current, setCurrent] = useState("");
@@ -189,7 +190,7 @@ const App: React.FC = () => {
       alert("সব তথ্য দিন!");
       return;
     }
-    const isCapcut = selectedPlan.id === 'CAPCUT';
+    const isCapcut = selectedPlan.id === 'CAPCUT' || selectedPlan.id === 'CAPCUT_MAX';
     const finalPaymentType = isCapcut ? 'FULL' : orderDetails.paymentType;
     const payAmountVal = finalPaymentType === 'ADVANCE' ? Math.ceil((selectedPlan?.price || 0) * 0.5) : (selectedPlan?.price || 0);
     const payLabel = finalPaymentType === 'ADVANCE' ? `৫০% অগ্রিম (৳${payAmountVal})` : `ফুল পেমেন্ট (৳${payAmountVal})`;
@@ -207,7 +208,7 @@ const App: React.FC = () => {
     window.open(`https://wa.me/88${CONTACT_NUMBER.replace('-', '')}?text=${encodeURIComponent(waMessage)}`, '_blank');
   };
 
-  const isCapcutSelected = selectedPlan?.id === 'CAPCUT';
+  const isCapcutSelected = selectedPlan?.id === 'CAPCUT' || selectedPlan?.id === 'CAPCUT_MAX';
   const payableAmount = (isCapcutSelected || orderDetails.paymentType === 'FULL') ? (selectedPlan?.price || 0) : Math.ceil((selectedPlan?.price || 0) * 0.5);
 
   return (
@@ -349,45 +350,91 @@ const App: React.FC = () => {
         )}
 
         {activeTab === 'capcut' && (
-          <div className="space-y-6 animate-fade-in pb-12 pt-2">
-            <div className={`p-6 rounded-3xl border-4 border-emerald-500/30 bg-gradient-to-br from-emerald-900/40 to-slate-950 shadow-[0_0_40px_rgba(16,185,129,0.2)] relative overflow-hidden`}>
-               <div className="absolute -top-10 -right-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl"></div>
+          <div className="space-y-8 animate-fade-in pb-12 pt-2">
+            <h2 className="text-xl font-black text-center italic uppercase text-white tracking-tighter">Capcut <span className="gradient-text">Pro Collection</span></h2>
+            
+            {/* Standard Capcut Card - Upgraded with Gorgeous Neon Light Borders & Flashy Effects */}
+            <div className={`p-8 rounded-[2.5rem] border-4 border-emerald-400/60 bg-gradient-to-br from-emerald-900 via-slate-950 to-emerald-900 shadow-[0_0_80px_rgba(16,185,129,0.4)] relative overflow-hidden group active:scale-[0.98] transition-all`}>
+               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[glint-bar_3s_infinite] -skew-x-12"></div>
+               <div className="absolute -top-20 -right-20 w-64 h-64 bg-emerald-500/30 rounded-full blur-[100px] animate-pulse"></div>
                
-               <div className="text-center mb-8">
-                 <h2 className="text-3xl font-black text-white mb-2 uppercase italic tracking-tighter drop-shadow-lg">Capcut Pro <span className="text-emerald-400">APK</span></h2>
-                 <p className="text-emerald-300/80 text-[10px] font-black uppercase tracking-widest px-4 py-1 bg-emerald-500/10 rounded-full inline-block border border-emerald-500/20">Authorized Premium Tool</p>
+               <div className="flex justify-between items-start mb-6 relative z-10">
+                  <div>
+                    <h3 className="text-3xl font-black text-white uppercase tracking-tighter italic drop-shadow-[0_0_15px_rgba(16,185,129,0.8)]">Capcut Pro <span className="text-emerald-400">APK</span></h3>
+                    <p className="text-[10px] text-emerald-300 font-black mt-1 uppercase tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20 inline-block">Limited Offer Edition</p>
+                  </div>
+                  <div className="bg-slate-950/80 backdrop-blur-md px-5 py-2.5 rounded-2xl border-2 border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.5)] relative">
+                    <div className="absolute inset-0 bg-emerald-500/20 animate-pulse rounded-2xl"></div>
+                    <span className="text-2xl font-black text-white relative z-10 tabular-nums">৳৭০</span>
+                  </div>
+               </div>
+               
+               <p className="text-[12px] text-slate-100 font-black mb-6 leading-relaxed italic border-l-4 border-emerald-400 pl-4 bg-emerald-500/10 py-3 rounded-r-2xl drop-shadow-md">"{CAPCUT_PRO_PLAN.description}"</p>
+               
+               <div className="space-y-3 mb-8 relative z-10">
+                  <p className="text-[9px] font-black text-emerald-300 uppercase tracking-widest text-center mb-2 animate-pulse">✨ ২০+ প্রিমিয়াম ফিচার আনলক (স্ক্রোল করুন)</p>
+                  <div className="bg-black/60 p-5 rounded-[2rem] border-2 border-emerald-500/20 shadow-inner max-h-[160px] overflow-y-auto scrollbar-hide space-y-3">
+                    {CAPCUT_PRO_PLAN.features.map((f, i) => (
+                      <div key={i} className="flex items-center gap-4 py-1.5 border-b border-white/5 last:border-0 hover:translate-x-1 transition-transform">
+                        <span className="text-xl animate-bounce">{f.split(' ')[0]}</span>
+                        <span className="text-[11px] font-black text-emerald-500 uppercase tracking-tight">{f.split(' ').slice(1).join(' ')}</span>
+                      </div>
+                    ))}
+                  </div>
+               </div>
+               <button onClick={() => { setSelectedPlan(CAPCUT_PRO_PLAN); setActiveTab('order'); }} className="w-full bg-emerald-500 text-slate-950 py-5 rounded-[2.5rem] font-black text-xl border-b-[10px] border-emerald-900 active:translate-y-1 active:border-b-0 uppercase tracking-[0.2em] shadow-[0_0_30px_rgba(16,185,129,0.6)] hover:brightness-125 transition-all">অর্ডার দিন 🚀</button>
+            </div>
+
+            {/* Pro Max Card - Hyper Dynamic & Flashy with Neon Lighting */}
+            <div className={`p-8 rounded-[3rem] border-4 border-indigo-400/70 bg-gradient-to-br from-indigo-900 via-slate-950 to-indigo-900 shadow-[0_0_100px_rgba(79,70,229,0.5)] relative overflow-hidden group scale-[1.02] active:scale-100 transition-all`}>
+               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-[glint-bar_2s_infinite] -skew-x-12 opacity-40"></div>
+               <div className="absolute -top-20 -right-20 w-80 h-80 bg-indigo-500/40 rounded-full blur-[120px] animate-pulse"></div>
+               <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-purple-500/40 rounded-full blur-[120px] animate-pulse"></div>
+               
+               <div className="text-center relative z-10">
+                 <div className="inline-block px-5 py-2 bg-indigo-500 text-white text-[10px] font-black uppercase rounded-full mb-5 shadow-[0_0_25px_rgba(79,70,229,0.8)] tracking-widest animate-bounce">
+                    Highly Recommended 👑
+                 </div>
+                 <h2 className="text-4xl font-black text-white mb-2 uppercase italic tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.6)]">Chinese Capcut <span className="text-indigo-400">Pro Max</span></h2>
+                 <p className="text-indigo-200 text-[11px] font-black uppercase tracking-[0.3em] mb-8">Premium Masterpiece Tool</p>
                </div>
 
-               <div className="flex flex-col gap-6 mb-8">
-                  <div className="bg-slate-950/80 p-5 rounded-2xl border border-white/5 flex justify-between items-center shadow-inner">
-                    <div>
-                      <p className="text-[10px] font-black text-slate-500 uppercase">মূল্য মাত্র:</p>
-                      <h3 className="text-3xl font-black text-white tabular-nums">৳৫০</h3>
-                    </div>
-                    <button onClick={() => { setSelectedPlan(CAPCUT_PRO_PLAN); setActiveTab('order'); }} className="bg-emerald-500 text-slate-950 px-8 py-3.5 rounded-xl font-black text-lg border-b-[8px] border-emerald-800 shadow-xl active:translate-y-1 active:border-b-0 uppercase tracking-widest">Order Now →</button>
+               <div className="bg-black/70 backdrop-blur-3xl p-7 rounded-[2.5rem] border-2 border-indigo-400 shadow-[0_0_40px_rgba(79,70,229,0.6)] flex justify-between items-center mb-8 relative z-10 overflow-hidden">
+                  <div className="absolute inset-0 bg-indigo-500/10 animate-pulse"></div>
+                  <div className="relative z-10">
+                    <p className="text-[11px] font-black text-indigo-400 uppercase tracking-widest">VIP Elite Price:</p>
+                    <h3 className="text-5xl font-black text-white tabular-nums drop-shadow-lg tracking-tighter">৳১২৫</h3>
                   </div>
+                  <div className="text-indigo-400 relative z-10 drop-shadow-[0_0_15px_rgba(79,70,229,0.8)]">
+                    <svg className="w-12 h-12 animate-spin-slow" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                    </svg>
+                  </div>
+               </div>
 
-                  <div className="space-y-4">
-                    <p className="text-[11px] font-black text-emerald-400 uppercase text-center flex items-center justify-center gap-2">
-                      <span className="w-8 h-[1px] bg-emerald-500/30"></span>
-                      যা যা পাবেন এই APK-তে
-                      <span className="w-8 h-[1px] bg-emerald-500/30"></span>
-                    </p>
-                    <div className="grid grid-cols-1 gap-3.5 bg-black/20 p-4 rounded-2xl border border-white/5">
-                      {CAPCUT_PRO_PLAN.features.map((f, i) => (
-                        <div key={i} className="flex items-center gap-4 group">
-                          <span className="text-lg group-hover:scale-125 transition-transform duration-300">{f.split(' ')[0]}</span>
-                          <span className="text-[11px] font-bold text-slate-200 uppercase tracking-tight">{f.split(' ').slice(1).join(' ')}</span>
+               <div className="space-y-4 mb-10 relative z-10 text-center">
+                  <p className="text-[13px] font-black text-white italic px-5 leading-relaxed drop-shadow-2xl bg-indigo-950/60 py-4 rounded-3xl border-2 border-indigo-400/30">"{CAPCUT_PRO_MAX_PLAN.description}"</p>
+                  
+                  <div className="space-y-2 mt-6">
+                    <p className="text-[10px] font-black text-indigo-300 uppercase tracking-[0.4em] animate-pulse">👑 ২০+ আল্ট্রা ভিআইপি ফিচার (স্ক্রোল করুন)</p>
+                    <div className="bg-black/80 p-6 rounded-[2.5rem] border-2 border-indigo-500/30 shadow-inner max-h-[200px] overflow-y-auto scrollbar-hide space-y-4">
+                      {CAPCUT_PRO_MAX_PLAN.features.map((f, i) => (
+                        <div key={i} className="flex items-center gap-5 py-2 border-b border-white/5 last:border-0 transition-all hover:scale-105 hover:translate-x-2">
+                          <span className="text-2xl animate-pulse">{f.split(' ')[0]}</span>
+                          <span className="text-[12px] font-black text-indigo-100 uppercase tracking-tight drop-shadow-md">{f.split(' ').slice(1).join(' ')}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                </div>
 
-               <p className="text-center text-[8px] text-slate-500 font-bold uppercase tracking-widest">মিস্টার বাংলা স্টুডিও গ্যারান্টিড নিরাপদ ফাইল</p>
+               <button onClick={() => { setSelectedPlan(CAPCUT_PRO_MAX_PLAN); setActiveTab('order'); }} className="w-full bg-gradient-to-r from-indigo-500 via-purple-600 to-indigo-600 text-white py-6 rounded-[3rem] font-black text-2xl border-b-[12px] border-indigo-900 shadow-[0_20px_50px_rgba(79,70,229,0.6)] active:translate-y-2 active:border-b-0 transition-all uppercase tracking-[0.3em] relative z-10 group overflow-hidden">
+                 <span className="relative z-10">অর্ডার দিন 🚀</span>
+                 <div className="absolute inset-0 bg-white/30 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+               </button>
             </div>
             
-            <button onClick={() => setActiveTab('home')} className="w-full py-4 text-slate-400 font-black text-xs uppercase tracking-widest bg-white/5 rounded-xl border border-white/5">← হোম পেজে ফিরে যান</button>
+            <button onClick={() => setActiveTab('home')} className="w-full py-4 text-slate-500 font-black text-[11px] uppercase tracking-[0.4em] bg-white/5 rounded-2xl border border-white/10 mt-6 active:scale-95 transition-all">← Return to Home</button>
           </div>
         )}
 
