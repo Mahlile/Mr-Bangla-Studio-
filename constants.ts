@@ -10,11 +10,11 @@ export const YT_CHANNEL_URL = "https://youtube.com/@misterbanglaofficial";
 export const CAPCUT_PRO_PLAN = {
   id: 'CAPCUT',
   title: 'Capcut Pro APK',
-  price: 70,
+  price: 99,
   deliveryTime: '৫ মিনিট',
   badge: 'সীমিত সময়ের অফার! 🔥',
   color: 'from-emerald-600 via-teal-800 to-slate-900',
-  description: 'এই অ্যাপটি একদম প্রো সমস্ত ফিচার রয়েছে। এটি এখন গর্জিয়াস নিয়ন লাইট অফারে পাচ্ছেন মাত্র ৭০ টাকায়! মাঝে মাঝে কোনো সমস্যা করলে ইউটিউব ভিডিও দেখে ঠিক করা সম্ভব।',
+  description: 'এই অ্যাপটি একদম প্রো সমস্ত ফিচার রয়েছে। এটি এখন গর্জিয়াস নিয়ন লাইট অফারে পাচ্ছেন মাত্র ৯৯ টাকায়! মাঝে মাঝে কোনো সমস্যা করলে ইউটিউব ভিডিও দেখে ঠিক করা সম্ভব।',
   features: [
     '✨ No Watermark (ওয়াটারমার্ক নেই)',
     '🔥 All Pro Effects Unlocked',
@@ -22,15 +22,10 @@ export const CAPCUT_PRO_PLAN = {
     '🎭 Premium Transitions Unlocked',
     '🎙️ AI Text-to-Speech Pro',
     '🖼️ Auto Background Remover',
-    '🎞️ Chroma Key Advanced',
-    '✂️ Multi-track Advanced Edit',
-    '🎶 Premium Music Library',
-    '🧊 3D Zoom Exclusive Effect',
     '🛡️ 100% Safe & Secure File',
     '♾️ Lifetime Access Granted',
     '📱 Low-end Phone Support',
     '✍️ Aesthetic Custom Fonts',
-    '🌈 Pro Color Filters Pack',
     '⚡ Speed Ramping Pro Mode',
     '📦 Overlay Packs Unlocked',
     '🧹 Auto Cache Cleaner',
@@ -58,12 +53,7 @@ export const CAPCUT_PRO_MAX_PLAN = {
     '🤖 Super AI Smart Tracking',
     '🔇 Bug-Free Guaranteed Experience',
     '💎 8K Resolution Ready Export',
-    '🎥 RAW Video Editing Support',
-    '🌌 Special Nebula Effects',
-    '🎧 3D Surround Audio Edit',
-    '⚡ Instant Render Engine Tech',
     '🛡️ Military Grade App Safety',
-    '🏆 Rank #1 Global Mod Version',
     '🎭 Motion Blur Pro Max Style',
     '🌈 HDR 10+ Rendering Color',
     '📱 High FPS Support (120fps)',
@@ -73,6 +63,152 @@ export const CAPCUT_PRO_MAX_PLAN = {
     '🛸 Super AI Voice Cloning',
     '🎬 Professional Multi-Cam View'
   ]
+};
+
+export const INSHOT_PRO_PLAN = {
+  id: 'INSHOT',
+  title: 'InShot Pro APK',
+  price: 99,
+  deliveryTime: '৫ মিনিট',
+  badge: 'প্রিমিয়াম অফার! ✨',
+  color: 'from-pink-600 via-rose-700 to-slate-900',
+  description: 'InShot Pro-এর সমস্ত প্রিমিয়াম ফিচার আনলক করা আছে। কোনো ওয়াটারমার্ক ছাড়াই ভিডিও এডিট করুন একদম প্রফেশনালি।',
+  features: [
+    '✨ No Watermark (ওয়াটারমার্ক নেই)',
+    '🔥 All Premium Filters Unlocked',
+    '🎥 4K 60FPS Export Support',
+    '🎭 All Transitions Unlocked',
+    '🎙️ Premium Sound Effects',
+    '🖼️ Pro Canvas & Backgrounds',
+    '🛡️ 100% Safe & Secure File',
+    '♾️ Lifetime Access Granted',
+    '📱 All Stickers & Fonts Unlocked',
+    '⚡ No Ads (বিজ্ঞাপন মুক্ত)',
+    '🎬 Advanced Video Trimmer',
+    '🌈 Pro Color Adjustment',
+    '🚀 Regular Update Support'
+  ]
+};
+
+export const SOCIAL_MEDIA_SERVICES: any = {
+  facebook: {
+    label: 'Facebook',
+    icon: '🔵',
+    color: 'from-blue-600 to-blue-800',
+    categories: [
+      {
+        id: 'fb_followers',
+        label: 'Followers (ফলোয়ার)',
+        basePrice: 30, // per 1k
+        quantities: [
+          { label: '1,000', value: 1000 },
+          { label: '5,000', value: 5000 },
+          { label: '10,000', value: 10000 },
+          { label: '20,000', value: 20000 },
+          { label: '50,000', value: 50000 },
+          { label: '1,00,000', value: 100000 },
+          { label: '1 Million', value: 1000000 },
+        ]
+      },
+      {
+        id: 'fb_views',
+        label: 'Views (ভিউ)',
+        basePrice: 25, // per 1k
+        quantities: [
+          { label: '1,000', value: 1000 },
+          { label: '5,000', value: 5000 },
+          { label: '10,000', value: 10000 },
+          { label: '50,000', value: 50000 },
+          { label: '1,00,000', value: 100000 },
+          { label: '1 Million', value: 1000000 },
+        ]
+      },
+      {
+        id: 'fb_reactions',
+        label: 'Post Reaction (রিয়েকশন)',
+        basePrice: 40, // per 1k
+        quantities: [
+          { label: '1,000', value: 1000 },
+          { label: '5,000', value: 5000 },
+          { label: '10,000', value: 10000 },
+          { label: '50,000', value: 50000 },
+          { label: '1,00,000', value: 100000 },
+          { label: '1 Million', value: 1000000 },
+        ]
+      },
+      {
+        id: 'fb_watchtime',
+        label: 'Watch Time (ওয়াচ টাইম)',
+        basePrice: 150, // per 1k hours
+        quantities: [
+          { label: '1,000 Hours', value: 1000 },
+          { label: '2,000 Hours', value: 2000 },
+          { label: '4,000 Hours', value: 4000 },
+          { label: '6,000 Hours', value: 6000 },
+        ]
+      }
+    ]
+  },
+  youtube: {
+    label: 'YouTube',
+    icon: '🔴',
+    isClosed: true,
+    color: 'from-red-600 to-red-800',
+    categories: [
+      {
+        id: 'yt_subs',
+        label: 'Subscribers (সাবস্ক্রাইবার)',
+        basePrice: 280,
+        quantities: [
+          { label: '100', value: 100 },
+          { label: '500', value: 500 },
+          { label: '1,000', value: 1000 },
+        ]
+      },
+      {
+        id: 'yt_views',
+        label: 'Views (ভিউ)',
+        basePrice: 90,
+        quantities: [
+          { label: '1,000', value: 1000 },
+          { label: '10,000', value: 10000 },
+        ]
+      }
+    ]
+  },
+  tiktok: {
+    label: 'TikTok',
+    icon: '⚫',
+    color: 'from-slate-700 to-black',
+    categories: [
+      {
+        id: 'tt_followers',
+        label: 'Followers (ফলোয়ার)',
+        basePrice: 45,
+        quantities: [
+          { label: '1,000', value: 1000 },
+          { label: '10,000', value: 10000 },
+        ]
+      }
+    ]
+  },
+  instagram: {
+    label: 'Instagram',
+    icon: '🟣',
+    isClosed: true,
+    color: 'from-pink-600 to-purple-800',
+    categories: [
+      {
+        id: 'ig_followers',
+        label: 'Followers (ফলোয়ার)',
+        basePrice: 55,
+        quantities: [
+          { label: '1,000', value: 1000 },
+          { label: '10,000', value: 10000 },
+        ]
+      }
+    ]
+  }
 };
 
 export const PRICING_PLANS = [
